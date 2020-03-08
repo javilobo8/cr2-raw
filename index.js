@@ -1,16 +1,19 @@
 'use strict';
-
-const fs = require('fs'),
-  path = require('path');
-
 const readraw = require('./src/readraw'),
   readBuffer = require('./src/read-buffer'),
   dataTypes = require('./src/read-buffer/data-types'),
   metaData = require('./src/meta-data');
 
-function init(filePath) {
+async function init(file) {
+  let buffer;
 
-  const buffer = readBuffer(filePath);
+  if (Buffer.isBuffer(file)) {
+    buffer = file;
+  } else if (typeof file === 'string') {
+    buffer = await readBuffer(file);
+  } else {
+    throw new Error('Unsupported file input');
+  }
 
   // Read raw data.
   const raw = readraw(buffer);

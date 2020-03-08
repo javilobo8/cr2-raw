@@ -1,26 +1,27 @@
 'use stict';
-
 const fs = require('fs');
+const util = require('util');
 
-function init(filePath) {
+const readFileAsync = util.promisify(fs.readFile);
 
-  let data;
-
-  // Read entire file.
-  data = fs.readFileSync(filePath);
+/**
+ * read-buffer
+ *
+ * @param {string} filePath
+ * @returns {Promise<object>} object with read and copy
+ */
+async function init(filePath) {
+  const data = await readFileAsync(filePath);
 
   function read(offset, type, count) {
 
     const arrayBuffer = fillBuffer(offset, type.bytes * count);
 
-    let value = type.getValue(arrayBuffer);
-
-    return value;
+    return type.getValue(arrayBuffer);
   }
 
   function copy(offset, count) {
-
-    let newData = [];
+    const newData = [];
 
     for (let i = 0, p = offset; i < count; i++, p++) {
       newData[i] = data[p];
@@ -30,10 +31,9 @@ function init(filePath) {
   }
 
   function fillBuffer(offset, size) {
-
     const arrayBuffer = new ArrayBuffer(size);
 
-    let ta = new Uint8Array(arrayBuffer);
+    const ta = new Uint8Array(arrayBuffer);
 
     for (let i = 0; i < ta.length; i++) {
       ta[i] = data[offset + i];
@@ -43,8 +43,8 @@ function init(filePath) {
   }
 
   return {
-    read: read,
-    copy: copy
+    read,
+    copy,
   }
 }
 

@@ -8,11 +8,11 @@ const readBuffer = require('../../src/read-buffer'),
 
 const testIterations = 5;
 
-test('read ubyte', () => {
+test('read ubyte', async () => {
 
   const filePath = path.resolve(__dirname, '..', 'res', '_MG_4122.CR2');
   const data = fs.readFileSync(filePath);
-  const rb = readBuffer(filePath);
+  const rb = await readBuffer(filePath);
 
   for (let i = 0; i < testIterations; i++) {
 
@@ -26,24 +26,24 @@ test('read ubyte', () => {
 
 });
 
-test('read string', () => {
+test('read string', async () => {
 
   const filePath = path.resolve(__dirname, '..', 'res', '_MG_4122.CR2');
   const data = fs.readFileSync(filePath);
   const exp = 'Canon EOS 400D DIGITAL';
 
-  const rb = readBuffer(filePath);
+  const rb = await readBuffer(filePath);
   const read = rb.read(202, dataTypes.types.string, 32);
 
   expect(read).toBe(exp);
 
 });
 
-test('read ushort', () => {
+test('read ushort', async () => {
 
   const filePath = path.resolve(__dirname, '..', 'res', '_MG_4122.CR2');
   const data = fs.readFileSync(filePath);
-  const rb = readBuffer(filePath);
+  const rb = await readBuffer(filePath);
 
   for (let i = 0; i < testIterations; i++) {
 
@@ -57,11 +57,11 @@ test('read ushort', () => {
 
 });
 
-test('read ulong', () => {
+test('read ulong', async () => {
 
   const filePath = path.resolve(__dirname, '..', 'res', '_MG_4122.CR2');
   const data = fs.readFileSync(filePath);
-  const rb = readBuffer(filePath);
+  const rb = await readBuffer(filePath);
 
   for (let i = 0; i < testIterations; i++) {
 
@@ -75,11 +75,11 @@ test('read ulong', () => {
 
 });
 
-test('copy random bytes', () => {
+test('copy random bytes', async () => {
 
   const filePath = path.resolve(__dirname, '..', 'res', '_MG_4122.CR2');
   const data = fs.readFileSync(filePath);
-  const rb = readBuffer(filePath);
+  const rb = await readBuffer(filePath);
 
   for (let i = 0; i < testIterations; i++) {
 

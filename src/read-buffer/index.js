@@ -7,11 +7,19 @@ const readFileAsync = util.promisify(fs.readFile);
 /**
  * read-buffer
  *
- * @param {string} filePath
+ * @param {string|Buffer} file
  * @returns {Promise<object>} object with read and copy
  */
-async function init(filePath) {
-  const data = await readFileAsync(filePath);
+async function init(file) {
+  let data;
+
+  if (Buffer.isBuffer(file)) {
+    data = file;
+  } else if (typeof file === 'string') {
+    data = await readFileAsync(file);
+  } else {
+    throw new Error('Unsupported file input');
+  }
 
   function read(offset, type, count) {
 

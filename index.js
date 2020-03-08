@@ -5,15 +5,7 @@ const readraw = require('./src/readraw'),
   metaData = require('./src/meta-data');
 
 async function init(file) {
-  let buffer;
-
-  if (Buffer.isBuffer(file)) {
-    buffer = file;
-  } else if (typeof file === 'string') {
-    buffer = await readBuffer(file);
-  } else {
-    throw new Error('Unsupported file input');
-  }
+  const buffer = await readBuffer(file);
 
   // Read raw data.
   const raw = readraw(buffer);

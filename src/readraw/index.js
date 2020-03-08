@@ -1,8 +1,4 @@
 'use strict';
-
-const fs = require('fs'),
-  path = require('path');
-
 const dataTypes = require('../read-buffer/data-types');
 
 function readraw(buffer) {
